@@ -1,0 +1,12 @@
+* {
+	margin: 0;
+}
+
+html, body {
+  background: #A1FFCE; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #A1FFCE , #FAFFD1); /* Chrome 10-25, Safari 5.1-6 */
+  background: green; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100%;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+}
