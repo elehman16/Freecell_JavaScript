@@ -13,4 +13,4 @@ class Card {
   canPlaceBelow(card) {
     return card.suit.oppositeColor(this.suit) && this.cardVal.canPlaceBelow(card.cardVal);
   }
-};
+}

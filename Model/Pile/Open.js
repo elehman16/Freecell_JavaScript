@@ -1,9 +1,9 @@
 /*
-Represents a cascade pile to be used in freecell.
+Represents an open pile to be used in freecell.
 */
-class Cascade extends APile {
+class Open extends APile {
 
-  // creates a cascade pile.
+  // creates a open pile.
   constructor(cards, pileNum) {
     super(cards, pileNum);
   }
@@ -15,7 +15,7 @@ class Cascade extends APile {
 
   // Determines if the given card can be added to the pile.
   canAdd(card) {
-    return this.cards[this.cards.length].canPlaceBelow(card);
+    return this.cards[this.cards.length] == 0;
   }
 
 }

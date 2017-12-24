@@ -17,4 +17,4 @@ class CardValue {
     return (cardValue.value - this.value) === -1;
   }
 
-};
+}

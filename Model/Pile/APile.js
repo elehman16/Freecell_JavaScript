@@ -21,4 +21,31 @@ class APile {
     return cards.splice();
   }
 
-};
+  // Remove the card at the given location.
+  removeCard(location) {
+    if (location < this.cards.length) {
+      this.cards.splice(location, 1);
+    } else {
+      throw UserError("Invalid location.");
+    }
+  }
+
+  // add the card to the pile if possible.
+  addCard(card) {
+    if (this.canAdd(card)) {
+      this.cards.push(card);
+    } else {
+      throw UserError("Cannot place card there.");
+    }
+  }
+
+  // get the card at the requested location
+  getCard(location) {
+    if (location < this.cards.length) {
+      this.cards[location];
+    } else {
+      throw UserError("Invalid location.");
+    }
+  }
+
+}
