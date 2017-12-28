@@ -32,4 +32,20 @@ class Suit {
     }
   }
 
+  // Gets the path for this type of Suit
+  getType() {
+    switch(val) {
+      case 0:
+        return "Hearts\\";
+      case 1:
+        return "Diamonds\\";
+      case 2:
+        return "Spades\\";
+      case 3:
+        return "Clubs\\";
+      default:
+        throw UserError("Not a valid card created.");
+    }
+  }
+
 }

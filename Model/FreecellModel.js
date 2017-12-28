@@ -99,7 +99,7 @@ class FreecellModel {
     if (!this.hasStarted) {
       throw UserError("Please start the game first.");
     }
-    
+
     var from = this.getPile(source, pileNumber);
     var to = this.getPile(destination, destPileNumber);
     var cardToMove = from.getCard(cardIndex);
@@ -114,13 +114,21 @@ class FreecellModel {
   * @param pileNum represents which pile to get.
   */
   getPile(source, pileNum) {
-    switch(source) {
+    return this.getEntirePile(source)[pileNum];
+  }
+
+  /**
+  * Getter for the pile.
+  * @param type represents the type of pile to be retrieved.
+  */
+  getEntirePile(type) {
+    switch(type) {
       case "cascade":
-        return this.cascade[pileNum];
+        return this.cascade;
       case "open":
-        return this.open[pileNum];
+        return this.open;
       case "foundation":
-        return this.foundation[pileNum];
+        return this.foundation;
       default:
         throw UserError("Invalid parameters")
     }
