@@ -1,20 +1,21 @@
+
 // Represents the model to play a freecell with.
 class FreecellModel {
 
   // initializes the inputs.
   constructor() {
     this.hasStarted = false;
-    this.foundation = new Array[new Foundation(0), new Foundation(1),
-      new Foundation(2), new Foundation(3)];
+    this.foundation = [new Foundation(new Array(), 0), new Foundation([], 1),
+     new Foundation([], 2), new Foundation([], 3)];
   }
 
   // returns a sample deck to use.
   getDeck() {
     var deck = new Array(52);
     var deckIndex = 0;
-    for (int suit = 0; suit < 4; suit++) {
-      for (int cardValue = 0; cardValue < 14; cardValue++) {
-        deck[deckIndex] = new Card(new CardValue(cardIndex), new Suit(suit));
+    for (var i = 0; i < 4; i++) {
+      for (var j = 1; j < 14; j++) {
+        deck[deckIndex] = new Card(new CardValue(j), new Suit(i));
         deckIndex++;
       }
     }
@@ -28,15 +29,15 @@ class FreecellModel {
       return false;
     } else {
       var isGameOver = true;
-      for (APile pile : this.cascade) {
+      for (pile in this.cascade) {
         isGameOver = pile.isGameOver() && isGameOver;
       }
 
-      for (APile pile : this.foundation) {
+      for (pile in this.foundation) {
         isGameOver = pile.isGameOver() && isGameOver;
       }
 
-      for (APile pile : this.open) {
+      for (var pile in this.open) {
         isGameOver = pile.isGameOver() && isGameOver;
       }
 
@@ -54,7 +55,8 @@ class FreecellModel {
   startGame(deck, numCascadePiles, numOpenPiles, shuffle) {
     // TODO Check if the values are valid.
     if (deck.length != 52 || numCascadePiles < 4 || numOpenPiles < 1) {
-      throw UserError("Invalid values.")
+      throw Error("Invalid values.")
+      return ;
     }
 
     this.hasStarted = true;
@@ -62,26 +64,50 @@ class FreecellModel {
     this.open = new Array(numOpenPiles);
     this.cascade = new Array(numCascadePiles);
 
+    if (shuffle) {
+      let counter = this.deck.length;
+
+      // While there are elements in the array
+      while (counter > 0) {
+          // Pick a random index
+          let index = Math.floor(Math.random() * counter);
+
+          // Decrease counter by 1
+          counter--;
+
+          // And swap the last element with it
+          let temp = this.deck[counter];
+          this.deck[counter] = this.deck[index];
+          this.deck[index] = temp;
+      }
+    }
+
     // initialize open piles.
-    for (int i = 0; i < numOpenPiles; i++) {
-      open.push(new Open(new Array[], i));
+    for (var i = 0; i < numOpenPiles; i++) {
+      this.open[i]  = new Open([], i);
     }
 
     // number of cards per cascade pile.
-    var size = Math.ceil(deck.length / numCascadePiles);
+    var cascade_piles = [];
 
-    // initialize cascade piles by splitting up the given deck.
-    for (int i = 0; i < numCascadePiles; i++) {
-      var temp = new Array[];
-      var j = 0;
-
-      // allocate proper number of cards, or just finish off the deck.
-      while (j < size && j + i * size < deck.size) {
-        temp.push(this.deck[j]);
-      }
-
-      cascade.push(new Cascade(temp, i));
+    // initialize the correct number of pile of cards.
+    for (var i = 0; i < numCascadePiles; i++) {
+      cascade_piles.push([]);
     }
+
+    var pile = 0;
+
+    // fill the pile of cards up.
+    for (var deckIndex = 0; deckIndex < 52; deckIndex++) {
+        cascade_piles[pile].push(this.deck[deckIndex]);
+        pile = (pile + 1) % numCascadePiles;
+    }
+
+    // put the filled pile of cards into the cascade piles.
+    for (var c = 0; c < cascade_piles.length; c++) {
+      this.cascade[c] = new Cascade(cascade_piles[c], c);
+    }
+
   }
 
   /**
@@ -97,7 +123,7 @@ class FreecellModel {
   move(source, pileNumber, cardIndex, destination, destPileNumber) {
     // TODO check if inputs are valid.
     if (!this.hasStarted) {
-      throw UserError("Please start the game first.");
+      throw Error("Please start the game first.");
     }
 
     var from = this.getPile(source, pileNumber);
